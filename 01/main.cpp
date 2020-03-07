@@ -12,14 +12,14 @@ void reset();
 int main(int argc, char * * argv)
 {
 	std::cout << "\n";
-	if (argc >1)
+	if (argc > 1)
 	{
 		char * a = nullptr, c = 'a';
-		int * in =(int *) malloc(sizeof(int) * (argc -1));
-		for (int i =0; i< argc-1; i++)
+		int * in = (int *) malloc(sizeof(int) * (argc - 1));
+		for (int i = 0; i < argc-1; i++)
 			in[i] = atoi(argv[i+1]);
 		makeAllocator(in[0]);
-		for (int i =1; i< argc - 1; i++)
+		for (int i = 1; i < argc - 1; i++)
 		{
 			a = alloc(in[i]);
 			if (a != nullptr)
@@ -28,7 +28,7 @@ int main(int argc, char * * argv)
 				std:: cout << *a << std::endl;
 				c++;
 			}
-			if (i ==2)
+			if (i == 2)
 				reset();
 		}
 		free(ptr_first);
@@ -44,8 +44,8 @@ int main(int argc, char * * argv)
 
 void makeAllocator(size_t maxSize)
 {
-	ptr_first = (char*)malloc(sizeof(char)* maxSize);
-	ptr_last = ptr_first+maxSize;
+	ptr_first = (char*) malloc(sizeof(char) * maxSize);
+	ptr_last = ptr_first + maxSize;
 	ptr_middle = ptr_first;
 	if (ptr_first == nullptr)
 	{
@@ -53,7 +53,7 @@ void makeAllocator(size_t maxSize)
 		free(ptr_first);
 		exit(0);
 	}
-	std::cout <<"Memory is allocated\n";
+	std::cout << "Memory is allocated\n";
 
 }
 
