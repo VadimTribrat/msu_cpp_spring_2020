@@ -32,6 +32,7 @@ int main(int argc, char * * argv)
 				reset();
 		}
 		free(ptr_first);
+		free(in);
 		std::cout << "\n";
 		return 0;
 	}
