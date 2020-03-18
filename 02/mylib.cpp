@@ -49,7 +49,13 @@ void parse(const char * text)
 				strncpy(src, ptr1, i);
 				src[i] = '\0';
 				if (onNumber != nullptr)
-					onNumber(atoi(src));
+					try
+					{
+						onNumber(atoi(src));
+					}
+					catch(...)
+					{
+					}
 				free(src);
 			}
 			else
@@ -70,7 +76,13 @@ void parse(const char * text)
 				strncpy(src, ptr1, i);
 				src[i] = '\0';
 				if (onString != nullptr)
-					onString(src);
+					try
+					{
+						onString(src);
+					}
+					catch(...)
+					{
+					}
 				free(src);
 			}
 		}
