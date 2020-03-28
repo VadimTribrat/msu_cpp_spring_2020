@@ -5,7 +5,8 @@ class Matrix
 	public:
 	class Str
 	{
-		int * s, columns;
+		int * s;
+		int columns;
 		public:
 		Str(int *, int);
 		int & operator[](int i);
