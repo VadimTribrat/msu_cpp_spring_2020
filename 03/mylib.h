@@ -15,8 +15,8 @@ class Matrix
 	Matrix(size_t, size_t);
 	~Matrix();
 	Str operator[](size_t i);
-	int getRows();
-	int getColumns();
+	size_t getRows();
+	size_t getColumns();
 	bool operator ==(const Matrix &);
 	bool operator !=(const Matrix &);
 	Matrix & operator *=(int i);
