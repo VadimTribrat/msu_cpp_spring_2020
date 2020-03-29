@@ -52,25 +52,25 @@ Matrix::Str::Str(const Str& str)
 	s = str.s;
 	columns = str.columns;
 }
-int Matrix::getRows()
+size_t Matrix::getRows()
 {
 	return rows;
 }
-int Matrix::getColumns()
+size_t Matrix::getColumns()
 {
 	return Matrix::columns;
 }
-int Matrix::operator==(const Matrix & temp)
+bool Matrix::operator==(const Matrix & temp)
 {
 	if ((rows != temp.rows) || (columns != temp.columns))
-		return 0;
+		return false;
 	for (size_t i=0; i< rows; i++)
 		for (size_t j=0; j< columns; j++)
 			if (mat[i][j] != temp.mat[i][j])
-				return 0;
-	return 1;
+				return false;
+	return true;
 }
-int Matrix::operator !=(const Matrix & temp)
+bool Matrix::operator !=(const Matrix & temp)
 {
 	return !(*this == temp);
 }
