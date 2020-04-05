@@ -17,34 +17,41 @@ bigInt::bigInt(const char *  str1)
 {
 	std::string str(str1);
 	neg = str[0] == '-';
+	size = 0;
+	max_size = 5;
+	arr_of_int = new int[5];
 	for(auto s:str)
 	{
 		if (s!= '-')
-			arr_of_int.push_back(s - '0');
+		{			
+			push_back(s - '0');
+		}			
 	}
-	size = arr_of_int.size();
 }
 bigInt::bigInt(std::string str)
 {
 	neg = str[0] == '-';
+	size = 0;
+	max_size = 30;
+	arr_of_int = new int[30];
 	for(auto s:str)
 	{
 		if (s!= '-')
-			arr_of_int.push_back(s - '0');
+			arr_of_int[size] = s - '0';
+		size++;
 	}
-	size = arr_of_int.size();
 }
 
 bigInt::~bigInt()
 {
-	arr_of_int.clear();
+	free(arr_of_int);
 }
 std::ostream & operator <<(std::ostream & out, const bigInt& obj)
 {
 	if (obj.neg)
 		out << "-";
-	for(auto s:obj.arr_of_int)
-		out<< s;
+	for(size_t i = 0; i<obj.size; i++)
+		out<< obj.arr_of_int[i];
 	return out;
 }
 bigInt operator +(const bigInt & a, const bigInt & b)
@@ -96,11 +103,15 @@ bigInt operator +(const bigInt & a, const bigInt & b)
 }
 bigInt::bigInt(const bigInt & obj)
 {
-	arr_of_int = obj.arr_of_int;
+	int* newline = new int[obj.max_size];
+    for (size_t i = 0; i < obj.size; i++)
+		newline[i] = obj.arr_of_int[i];
+    arr_of_int = newline;
 	size = obj.size;
+	max_size = obj.max_size;
 	neg = obj.neg;
 }
-bool bigInt::operator ==(const bigInt & obj)
+bool bigInt::operator ==(const bigInt & obj) const
 {
 	if (size != obj.size)
 		return false;
@@ -115,11 +126,11 @@ bool bigInt::operator ==(const bigInt & obj)
 	}
 	return flag;
 }
-bool bigInt::operator !=(const bigInt & obj)
+bool bigInt::operator !=(const bigInt & obj) const
 {
 	return !((*this)==obj);
 }
-bool bigInt::operator <=(const bigInt & obj)
+bool bigInt::operator <=(const bigInt & obj) const
 {
 	if (neg && !obj.neg)
 		return true;
@@ -156,7 +167,7 @@ bool bigInt::operator <=(const bigInt & obj)
 		return flag;
 	}	
 }
-bool bigInt::operator>=(const bigInt& obj)
+bool bigInt::operator>=(const bigInt& obj)const
 {
 	if (neg && !obj.neg)
 		return false;
@@ -193,14 +204,14 @@ bool bigInt::operator>=(const bigInt& obj)
 		return flag;
 	}	
 }
-bool bigInt::operator<(const bigInt& other)
+bool bigInt::operator<(const bigInt& other)const
 {
 	bool flag = ((*this)<=other);
 	return flag && (*this)!=other;
 }
-bool bigInt::operator>(const bigInt& other)
+bool bigInt::operator>(const bigInt& other)const
 {
-	return !((*this)>=other) && (*this) != other;
+	return ((*this)>=other) && (*this) != other;
 }
 bigInt operator -(const bigInt & a, const bigInt & b)
 {
@@ -265,61 +276,19 @@ bigInt operator -(const bigInt & a, const bigInt & b)
 		}
 		else
 		{
-		int * s = new int[b.size + 1];
-		std::string str("");
-		for (int i = 0; i < b.size+1; i++)
-			s[i] = 0;
-		int mi = min(sizea, sizeb);
-		int ma = max(sizea, sizeb);
-		for (int i = 0; i <= mi; i++)
-		{
-			int temp = b.arr_of_int[sizeb] - a.arr_of_int[sizea] - s[sizeb+1];
-			if (temp >= 0)
-				str.push_back((char)(temp + '0'));
-			else
-			{
-				s[sizeb] += 1;
-				str.push_back((char)(temp + 10 + '0'));
-			}
-			sizeb--;
-			sizea--;
+			return -(b-a);
 		}
-		for (int i =mi+1  ; i<= ma; i++)
-		{
-			int temp = b.arr_of_int[sizeb] - s[sizeb + 1];
-			if (temp >= 0)
-				str.push_back((char)(temp + '0'));
-			else
-			{
-				s[sizeb] += 1;
-				str.push_back((char)(temp + 10 + '0'));
-			}
-			sizeb--;
-			sizea--;
-
-		}
-		str.push_back('-');
-		std::reverse(str.begin(), str.end());
-		std::string tempstr("");
-		size_t i = 1;
-		while (str[i] == '0')
-			i++;
-		for(size_t j = i; j<str.size(); j++)
-			tempstr.push_back(str[j]);
-		tempstr.push_back('-');
-//		std::reverse(tempstr.begin(), tempstr.end());
-		if (tempstr.size()== 1)
-			tempstr.push_back('0');
-		free(s);
-		return bigInt(std::string("-")+tempstr);
-	}
 	}
 			
 }
 bigInt bigInt::operator =(const bigInt & obj)
 {
-	arr_of_int = obj.arr_of_int;
+	int* newline = new int[obj.max_size];
+    for (size_t i = 0; i < obj.size; i++)
+		newline[i] = obj.arr_of_int[i];
+    arr_of_int = newline;
 	size = obj.size;
+	max_size = obj.max_size;
 	neg = obj.neg;
 	return *this;
 }
@@ -328,4 +297,22 @@ bigInt bigInt::operator -()const
 	bigInt temp = *this;
 	temp.neg = !temp.neg;
 	return temp;
+}
+
+void bigInt::push_back(int n)
+{
+
+    if (size < max_size) {
+        arr_of_int[size] = n;
+        size += 1;
+    }
+    else {
+            int* newline = new int[max_size * 2];
+            max_size *= 2;
+            memcpy(newline, arr_of_int, size*sizeof(int));
+            delete[] arr_of_int;
+            arr_of_int = newline;
+            arr_of_int[size] = n;
+			size += 1;
+        }
 }

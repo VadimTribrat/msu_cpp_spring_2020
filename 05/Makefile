@@ -5,4 +5,5 @@ main.o: main.cpp mylib.h
 mylib.o: mylib.cpp mylib.h
 	g++ -c mylib.cpp
 test:
+	valgrind ./main
 	./main
