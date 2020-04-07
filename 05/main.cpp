@@ -9,7 +9,7 @@ int main(int argc, char * * argv)
 	cout << big << endl;
 	cout << big << '+' << big << " = " << big+big << endl;
 	cout << big << "-" << bigInt("123") << " = " << big-bigInt("123") << endl;
-	cout << bigInt("1000000000000") << "-" << bigInt("1") << " = " << bigInt("1000000000000")-bigInt("1m") << endl;
+	cout << bigInt("1000000000000") << "-" << bigInt("1") << " = " << bigInt("1000000000000")-bigInt("1") << endl;
 	cout << "-(" << big << ") = " << -big << endl;
 	cout << "-(" << big << ") - " << big << " = " << -big - big << endl;
 	cout << bigInt("123456") << " - " << bigInt("321") << " = " << bigInt("123456") - bigInt("321") << endl;

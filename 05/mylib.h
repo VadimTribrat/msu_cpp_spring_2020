@@ -7,7 +7,7 @@ class bigInt
 	int * arr_of_int;
 	bool neg;
 	public:
-	bigInt(const char *);
+//	bigInt(const char *);
 	bigInt(std::string str);
 	~bigInt();
 	bigInt(const bigInt&);

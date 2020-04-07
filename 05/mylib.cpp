@@ -13,6 +13,7 @@ int min(int a, int b)
 {
 	return a < b? a : b;
 }
+/*
 bigInt::bigInt(const char *  str1)
 {
 	std::string str(str1);
@@ -28,20 +29,21 @@ bigInt::bigInt(const char *  str1)
 		}			
 	}
 }
+*/
 bigInt::bigInt(std::string str)
 {
 	neg = str[0] == '-';
 	size = 0;
-	max_size = 30;
-	arr_of_int = new int[30];
+	max_size = 5;
+	arr_of_int = new int[5];
 	for(auto s:str)
 	{
 		if (s!= '-')
-			arr_of_int[size] = s - '0';
-		size++;
+		{			
+			push_back(s - '0');
+		}			
 	}
 }
-
 bigInt::~bigInt()
 {
 	free(arr_of_int);
