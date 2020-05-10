@@ -32,25 +32,22 @@ private:
 class Uint64_order
 {
 private:
-    size_t cnt_block = 393216;            // размер блока в количестве чисел типа uint64_t
-    std::queue<std::string> queue_parts;  // очередь частичных отсортированных файлов
+    size_t cnt_block = 393216;            
+    std::queue<std::string> queue_parts;  
 
-    int nom_part = 1;                     // номер следующего частично отсортированного файла
+    int nom_part = 1;                    
     size_t sz = sizeof(uint64_t);
 
-    std::mutex guard_nom_part;            // для блокировки nom_part
-    std::mutex guard_queue_parts;         // для блокировки queue_parts
-    std::mutex guard_input;               // для блокировки входного файла
+    std::mutex guard_nom_part;        
+    std::mutex guard_queue_parts;        
+    std::mutex guard_input;              
 
 private:
 
-    // сортировка чисел из потока ввода
     void sort_uint64(std::ifstream& for_sort);
 
-    // слияние двух файлов с упорядоченными числами
     void merge_parts(std::string& p1fn, std::string& p2fn, std::string& outfn);
 
-    // слияние массива отсортированных чисел и файла с упорядоченными числами
     void merge_array_with_part(std::unique_ptr<uint64_t[]>& dat, size_t cnt, std::string& pfn, std::string& outfn);
 
 
@@ -64,9 +61,6 @@ public:
         while ( !queue_parts.empty() )
             queue_parts.pop();
     }
-    //======
-    // Сортировка чисел
-    //======
     std::string operator()(std::string file_for_sort = "for_sort.dat")
     {
         std::ifstream for_sort;
