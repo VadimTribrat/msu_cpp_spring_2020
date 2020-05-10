@@ -16,7 +16,6 @@ void Uint64_order::sort_uint64(std::ifstream& for_sort)
                     ++cnt;
         }
 
-        // упорядочить dat
         if ( cnt > 0 ) {
             qsort(static_cast<void*>( dat.get() ), cnt, sz, [](const void* a, const void* b) {
                 uint64_t arg1 = *static_cast<const uint64_t*>( a );
@@ -27,7 +26,6 @@ void Uint64_order::sort_uint64(std::ifstream& for_sort)
 
             });
 
-            // проверить очередь, узнать какую часть взять для обработки
             bool is_empty = true;
             std::string file_name_from_queue;
             {
@@ -38,15 +36,12 @@ void Uint64_order::sort_uint64(std::ifstream& for_sort)
                     queue_parts.pop();
                 }
             }
-
-            // получить номер частичного файла
             std::string file_name_merged;
             {
                 std::lock_guard<std::mutex> lock(guard_nom_part);
                 file_name_merged = "part_" + std::to_string(nom_part++);
             }
 
-            // записать в файл
             if ( is_empty ) {
                 std::ofstream sorted_part;
                 sorted_part.open(file_name_merged, std::ios::binary);
@@ -55,11 +50,9 @@ void Uint64_order::sort_uint64(std::ifstream& for_sort)
                 }
                 sorted_part.close();
             }
-            else { // merge dat и файл из очереди
+            else { 
                 merge_array_with_part(dat, cnt, file_name_from_queue, file_name_merged);
             }
-
-            // поместить в очередь
             {
                 std::lock_guard<std::mutex> lock(guard_queue_parts);
                 queue_parts.emplace(file_name_merged);
@@ -87,11 +80,7 @@ void Uint64_order::sort_uint64(std::ifstream& for_sort)
                 std::lock_guard<std::mutex> lock(guard_nom_part);
                 file_name_merged = "part_" + std::to_string(nom_part++);
             }
-
-            // слить два файла в один
             merge_parts(file_part1_name, file_part2_name, file_name_merged);
-
-            // поместить результат в очередь
             {
                 std::lock_guard<std::mutex> lock(guard_queue_parts);
                 queue_parts.emplace(file_name_merged);
@@ -184,5 +173,5 @@ void Uint64_order::merge_array_with_part(std::unique_ptr<uint64_t[]>& dat, size_
     }
     partfile.close();
     outfile.close();
-    remove(pfn.c_str()); // delete file
+    remove(pfn.c_str()); 
 }
