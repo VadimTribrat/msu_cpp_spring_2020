@@ -8,7 +8,7 @@ class bigInt
 	bool neg;
 	public:
 //	bigInt(const char *);
-	bigInt(std::string str);
+	bigInt(std::string & str);
 	~bigInt();
 	bigInt(const bigInt&);
 	bigInt operator=(const bigInt&);
