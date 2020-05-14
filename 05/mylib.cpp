@@ -30,7 +30,7 @@ bigInt::bigInt(const char *  str1)
 	}
 }
 */
-bigInt::bigInt(std::string str)
+bigInt::bigInt(std::string & str)
 {
 	neg = str[0] == '-';
 	size = 0;
