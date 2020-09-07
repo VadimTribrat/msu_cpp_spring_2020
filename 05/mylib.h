@@ -20,6 +20,7 @@ class bigInt
 	bool operator>=(const bigInt& other)const;
 	bool operator<=(const bigInt& other)const;
 	void push_back(int n);
+	
 	friend bigInt operator +(const bigInt&, const bigInt&);
 	friend bigInt operator -(const bigInt&, const bigInt&);
 	friend std::ostream & operator <<(std::ostream & out,const bigInt& obj);

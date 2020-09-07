@@ -22,4 +22,6 @@ int main(int argc, char * * argv)
 	cout << bigInt("321") << " != " << bigInt("321") << " : " << (bigInt("321") != bigInt("321")) << endl;
 
 	return 0;
+	
+	
 }
