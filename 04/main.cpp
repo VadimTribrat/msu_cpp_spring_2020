@@ -4,53 +4,38 @@
 
 using namespace std;
 
-struct Data {
-    uint64_t a;
-    bool b;
-    uint64_t c;
-
-    template <class Serializer>
-    Error serialize(Serializer& serializer)
-    {
-        return serializer(a, b, c);
-    }
-
-public:
-    Data(uint64_t a_, bool bo, uint64_t b)
-        : a(a_)
-        , b(bo)
-        , c(b)
-    {
-    }
-	friend ostream& operator<<(ostream& cout, Data& d);
+class Data
+{
+	int a;
+	bool b;
+	int c;
+	public:
+	Data(int a_t, bool b_t, int c_t):a{a_t}, b{b_t}, c{c_t}
+	{}
+	template <class T>
+	Error serialize(T & t)
+	{
+		return t(a, b, c);
+	}
+	friend std::ostream & operator <<(std::ostream & out,const Data & d);
 };
-ostream & operator <<(ostream & out, Data &d)
+
+std::ostream & operator<<(std::ostream & out, const Data & d)
 {
-	std::string str;
-	if (d.b)
-		str = "true";
-	else
-		str = "false";
-	out << d.a << " " << str << " " << d.c;
+	out << "a: " << d.a << " b: " << std::boolalpha << d.b << " c: " << d.c << std::endl;
 	return out;
-}
+}	
 
-int main(int argc, char** argv)
+int main()
 {
-    Data x(1, false, 2);
-
-    std::stringstream stream;
-    std::cout << "Serialization object: ";
-    std::cout << x << std::endl;
-    Serializer serializer(stream);
-    serializer.save(x);
-
-    Data y(0, false, 0);
-
-	
-    Deserializer deserializer(stream);
-    const Error err = deserializer.load(y);
-    std::cout << "Deserialization: ";
-    std::cout << y << std::endl;
-    return 0;
+	Data d(1, true, 2);
+	stringstream out;
+	Serializer ser(out);
+	Deserializer deser(out);
+	cout << d;
+	ser.save(d);
+	Data y(100, false, 0);
+	deser.load(y);
+	cout << y;	
+	return 0;
 }
